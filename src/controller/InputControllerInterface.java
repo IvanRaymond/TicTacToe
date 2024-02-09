@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.*;
+
 public interface InputControllerInterface {
-    void handleInput();
+    Point getInput();
 }

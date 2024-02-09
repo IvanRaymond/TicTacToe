@@ -1,13 +1,35 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
+/**
+ * A class representing a game of Tic Tac Toe.
+ */
 public class TicTacToe extends Game {
 
     public TicTacToe(ArrayList<Player> players) {
         super(new Board(3), players);
     }
 
+    /**
+     * Play a move.
+     * @param row row
+     * @param col column
+     */
+    @Override
+    public void play(int row, int col) throws IllegalMoveException {
+        if (!Objects.isNull(getBoard().getMarking(row, col))) {
+            super.play(row, col);
+        } else {
+            throw new IllegalMoveException("Cell is already occupied");
+        }
+    }
+
+    /**
+     * Check if the game is over.
+     * @return true if the game is over, false otherwise
+     */
     @Override
     public boolean isWinner(Marking marking) {
         for (int i = 0; i < getBoard().getSize(); i++) {
