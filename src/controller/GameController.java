@@ -9,12 +9,10 @@ public class GameController {
     private Player WINNER;
     private Player currentPlayer;
     private final Game game;
-    private boolean isGameOver;
 
     public GameController(Game game) {
         this.game = game;
         this.currentPlayer = game.getPlayers().get(0);
-        this.isGameOver = false;
         this.WINNER = null;
     }
 
@@ -23,9 +21,10 @@ public class GameController {
             game.setMarking(row, col, currentPlayer.mark());
             if (game.isWinner(currentPlayer.mark())) {
                 setWinner(currentPlayer);
-                isGameOver = true;
+                game.setGameOver(true);
             } else if (game.getBoard().isFull()) {
-                isGameOver = true;
+                game.setGameOver(true);
+                game.setDraw(true);
             } else {
                 switchPlayer();
             }
@@ -42,21 +41,22 @@ public class GameController {
         return WINNER;
     }
 
+    public boolean isDraw() {
+        return game.isDraw();
+    }
+
     public void reset() {
         WINNER = null;
         currentPlayer = game.getPlayers().get(0);
-        isGameOver = false;
+        game.setGameOver(false);
+        game.setDraw(false);
         game.reset();
-    }
-
-    private boolean isGameOver() {
-        return isGameOver;
     }
 
     public void gameLoop() {
         InputController inputController = new InputController();
 
-        while (!this.isGameOver) {
+        while (!game.isGameOver()) {
             Point point = null;
             while (point == null) {
                 point = inputController.getInput(currentPlayer.name() + "'s turn");

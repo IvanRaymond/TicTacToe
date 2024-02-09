@@ -9,6 +9,8 @@ public abstract class Game implements GameInterface, Subject {
     private BoardInterface board;
     private final ArrayList<Player> players;
     private ArrayList<Observer> observers;
+    private boolean isGameOver;
+    private boolean isDraw;
 
     /**
      * Constructor for the Game.
@@ -19,6 +21,8 @@ public abstract class Game implements GameInterface, Subject {
         this.board = board;
         this.players = players;
         this.observers = new ArrayList<>();
+        this.isGameOver = false;
+        this.isDraw = false;
     }
 
     public abstract void setMarking(int row, int col, Marking marking) throws IllegalMoveException;
@@ -51,6 +55,22 @@ public abstract class Game implements GameInterface, Subject {
      * @return true if the marking is a winner
      */
     public abstract boolean isWinner(Marking marking);
+
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
+    public boolean isDraw() {
+        return isDraw;
+    }
+
+    public void setDraw(boolean isDraw) {
+        this.isDraw = isDraw;
+    }
+
+    public void setGameOver(boolean isGameOver) {
+        this.isGameOver = isGameOver;
+    }
 
     /**
      * Register an observer.

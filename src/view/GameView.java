@@ -1,24 +1,19 @@
 package view;
 
-import controller.GameLoop;
+import controller.GameController;
 import model.Board;
 import model.Game;
-import model.IllegalMoveException;
 import model.Marking;
 import model.Observer;
 
 public class GameView implements GameViewInterface, Observer {
-
-    private GameLoop controller;
-    private Game model;
+    private final Game model;
 
     /**
      * Constructor for the GameView.
-     * @param controller
-     * @param model
+     * @param model The model.
      */
-    public GameView(GameLoop controller, Game model) {
-        this.controller = controller;
+    public GameView(Game model) {
         this.model = model;
     }
 
@@ -27,23 +22,8 @@ public class GameView implements GameViewInterface, Observer {
      */
     @Override
     public void update() {
-        this.showCurrentPlayer();
-        this.showBoard();
-        if (this.model.isGameOver()) {
-            this.showEndGame();
-            if (this.model.getWinner() == null) {
-                this.showDraw();
-            } else {
-                this.showWinner();
-            }
-        }
-    }
-
-    /**
-     * Show the current player.
-     */
-    public void showCurrentPlayer() {
-        System.out.println("Current player: " + this.model.getCurrentPlayer().name());   
+        // refresh the view
+        showBoard();
     }
 
     /**
@@ -52,6 +32,8 @@ public class GameView implements GameViewInterface, Observer {
     public void showBoard() {
         // get board from model
         Board board = (Board) this.model.getBoard();
+
+        System.out.flush();
 
         // print board
         for (int i = 0; i < board.getSize(); i++) {
@@ -79,50 +61,9 @@ public class GameView implements GameViewInterface, Observer {
         }
     }
 
-    /**
-     * Set the marking on the board.
-     */
-    public void setMarking() {
-        try {
-            this.controller.handleMarking();
-        } catch (IllegalMoveException e) {
-            this.showErrorPlacement();
-        }
-    }
 
-    /**
-     * Show an error message for invalid placement.
-     */
-    public void showErrorPlacement() {
-        System.out.println("Invalid placement");
-    }
-
-    /**
-     * Show the end game message.
-     */
-    public void showEndGame() {
-        System.out.println("Game over!");
-    }
-
-    /**
-     * Set the controller.
-     * @param controller
-     */
-    public void setController(GameLoop controller) {
-        this.controller = controller;
-    }
-
-    /**
-     * Show draw message.
-     */
-    public void showDraw() {
-        System.out.println("No winner!");
-    }
-
-    /**
-     * Show the winner.
-     */
-    public void showWinner() {
-        System.out.println("The winner is: " + this.model.getWinner().name());
+    private static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }
