@@ -3,5 +3,5 @@ package controller;
 import java.awt.*;
 
 public interface InputControllerInterface {
-    Point getInput();
+    Point getInput(String message);
 }

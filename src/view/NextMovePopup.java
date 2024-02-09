@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class NextMovePopup {
-    public Point getPoint() {
+    public Point getPoint(String message) {
         // Create JPanel to hold input fields
         JPanel panel = new JPanel();
         JTextField xField = new JTextField(5);
@@ -19,7 +19,7 @@ public class NextMovePopup {
 
         // Display the panel in a JOptionPane
         int result = JOptionPane.showConfirmDialog(null, panel,
-                "Enter Coordinates", JOptionPane.OK_CANCEL_OPTION);
+                message, JOptionPane.OK_CANCEL_OPTION);
 
         // Check if the user clicked OK
         if (result == JOptionPane.OK_OPTION) {
@@ -29,7 +29,7 @@ public class NextMovePopup {
                 int yCoordinate = Integer.parseInt(yField.getText());
                 return new Point(xCoordinate, yCoordinate);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Please enter valid integers for both coordinates.");
+                ErrorPopup.show("Please enter valid integers for both coordinates.");
             }
         }
         return null;
