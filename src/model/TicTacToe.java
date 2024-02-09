@@ -13,22 +13,25 @@ public class TicTacToe extends Game {
     }
 
     /**
-     * Play a move.
-     * @param row row
-     * @param col column
+     * Set the marking on the board.
+     * @param row the row
+     * @param col the column
+     * @param marking the marking to set
+     * @throws IllegalMoveException
      */
     @Override
-    public void play(int row, int col) throws IllegalMoveException {
-        if (!Objects.isNull(getBoard().getMarking(row, col))) {
-            super.play(row, col);
-        } else {
-            throw new IllegalMoveException("Cell is already occupied");
+    public void setMarking(int row, int col, Marking marking) throws IllegalMoveException {
+        if (getBoard().getMarking(row, col) != null) {
+            throw new IllegalMoveException("The cell is already occupied");
         }
+        getBoard().setMarking(row, col, marking);
+        notifyObservers();
     }
 
     /**
-     * Check if the game is over.
-     * @return true if the game is over, false otherwise
+     * Check if the given marking is a winner.
+     * @param marking the marking to check
+     * @return true if the marking is a winner
      */
     @Override
     public boolean isWinner(Marking marking) {
