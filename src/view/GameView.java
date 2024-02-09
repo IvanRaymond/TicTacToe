@@ -31,8 +31,11 @@ public class GameView implements GameViewInterface, Observer {
         this.showBoard();
         if (this.model.isGameOver()) {
             this.showEndGame();
-            // TODO: handle draw
-            this.showWinner();
+            if (this.model.getWinner() == null) {
+                this.showDraw();
+            } else {
+                this.showWinner();
+            }
         }
     }
 
@@ -113,7 +116,7 @@ public class GameView implements GameViewInterface, Observer {
      * Show draw message.
      */
     public void showDraw() {
-        System.out.println("It's a draw!");
+        System.out.println("No winner!");
     }
 
     /**
