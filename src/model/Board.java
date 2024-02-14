@@ -4,16 +4,19 @@ package model;
  * Implementation of the Board interface.
  */
 public class Board implements BoardInterface {
-    private final int size;
+    private final int rows;
+    private final int cols;
     private Marking[][] board;
 
     /**
      * Constructor for the Board.
-     * @param size the size of the board
+     * @param rows the number of rows
+     * @param cols the number of columns
      */
-    public Board(int size) {
-        this.size = size;
-        board = new Marking[size][size];
+    public Board(int rows, int cols) {
+        this.rows = rows;
+        this.cols = cols;
+        board = new Marking[rows][cols];
     }
 
     /**
@@ -33,8 +36,8 @@ public class Board implements BoardInterface {
      */
     @Override
     public boolean isFull() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
                 if (board[i][j] == null) {
                     return false;
                 }
@@ -48,8 +51,13 @@ public class Board implements BoardInterface {
      * @return the size
      */
     @Override
-    public int getSize() {
-        return size;
+    public int getRows() {
+        return rows;
+    }
+
+    @Override
+    public int getCols() {
+        return cols;
     }
 
     /**
@@ -68,6 +76,6 @@ public class Board implements BoardInterface {
      */
     @Override
     public void clear() {
-        board = new Marking[size][size];
+        board = new Marking[rows][cols];
     }
 }

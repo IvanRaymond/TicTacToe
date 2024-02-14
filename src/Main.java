@@ -1,6 +1,6 @@
 import controller.GameController;
 import model.*;
-import view.GameView;
+import view.GameViewGUI;
 
 import java.util.ArrayList;
 
@@ -10,10 +10,8 @@ public class Main {
         players.add(new Player("Player 1", new Circle()));
         players.add(new Player("Player 2", new Cross()));
         Game game = new TicTacToe(players);
-        GameController controller = new GameController(game);
-        GameView view = new GameView(game);
-        game.registerObserver(view);
-        view.showBoard();
-        controller.gameLoop();
+        GameState gameState = new GameState(players.get(0));
+        GameViewGUI view = new GameViewGUI(game.getBoard().getRows(), game.getBoard().getCols());
+        new GameController(game, gameState, view);
     }
 }

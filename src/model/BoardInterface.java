@@ -19,10 +19,16 @@ public interface BoardInterface {
     boolean isFull();
 
     /**
-     * Get the size of the board.
-     * @return the size
+     * Get the rows of the board.
+     * @return the number of rows
      */
-    int getSize();
+    int getRows();
+
+    /**
+     * Get the number of columns of the board.
+     * @return the number of columns
+     */
+    int getCols();
 
     /**
      * Get the marking at the given row and column.

@@ -6,23 +6,19 @@ import java.util.ArrayList;
  * An abstract class for a game.
  */
 public abstract class Game implements GameInterface, Subject {
-    private BoardInterface board;
+    private Board board;
     private final ArrayList<Player> players;
     private ArrayList<Observer> observers;
-    private boolean isGameOver;
-    private boolean isDraw;
 
     /**
      * Constructor for the Game.
      * @param board the board
      * @param players the players
      */
-    public Game(BoardInterface board, ArrayList<Player> players) {
+    public Game(Board board, ArrayList<Player> players) {
         this.board = board;
         this.players = players;
         this.observers = new ArrayList<>();
-        this.isGameOver = false;
-        this.isDraw = false;
     }
 
     public abstract void setMarking(int row, int col, Marking marking) throws IllegalMoveException;
@@ -41,7 +37,7 @@ public abstract class Game implements GameInterface, Subject {
      * @return the board
      */
     @Override
-    public BoardInterface getBoard() {
+    public Board getBoard() {
         return board;
     }
 
@@ -55,22 +51,6 @@ public abstract class Game implements GameInterface, Subject {
      * @return true if the marking is a winner
      */
     public abstract boolean isWinner(Marking marking);
-
-    public boolean isGameOver() {
-        return isGameOver;
-    }
-
-    public boolean isDraw() {
-        return isDraw;
-    }
-
-    public void setDraw(boolean isDraw) {
-        this.isDraw = isDraw;
-    }
-
-    public void setGameOver(boolean isGameOver) {
-        this.isGameOver = isGameOver;
-    }
 
     /**
      * Register an observer.
