@@ -18,9 +18,9 @@ public interface GameInterface {
 
     /**
      * Check if a player has won
-     * @param marking the marking to check
+     * @param player the marking to check
      * @return true if the player has won
      */
-    boolean isWinner(Marking marking);
+    boolean isWinner(Player player);
 
 }

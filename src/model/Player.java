@@ -5,12 +5,12 @@ package model;
  * @param name name of the player
  * @param mark board marking of the player
  */
-public record Player(String name, Marking mark) {
+public record Player(String name, String mark) {
     public String name() {
         return name;
     }
 
-    public Marking mark() {
+    public String mark() {
         return mark;
     }
 }

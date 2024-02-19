@@ -1,82 +1,83 @@
 package controller;
 
 import model.*;
-import view.ErrorPopup;
+import view.GameView;
 
-import java.awt.*;
 
+/**
+ * The controller for the game.
+ */
 public class GameController {
-    private Player WINNER;
-    private Player currentPlayer;
+    private final GameState gameState;
     private final Game game;
-    private boolean isGameOver;
+    private final GameView view;
 
-    public GameController(Game game) {
+    /**
+     * Constructor for the GameController.
+     * @param game The model.
+     * @param gameState The state of the game.
+     * @param view The view.
+     */
+    public GameController(Game game, GameState gameState, GameView view) {
         this.game = game;
-        this.currentPlayer = game.getPlayers().get(0);
-        this.isGameOver = false;
-        this.WINNER = null;
+        this.gameState = gameState;
+        this.view = view;
+
+        // Start the game loop
+        gameLoop();
     }
 
+    /**
+     * The game loop.
+     */
+    private void gameLoop() {
+        while (!gameState.isGameOver()) {
+            view.showMessage(gameState.getCurrentPlayer().name() + "'s turn");
+            int[] move = view.getMove();
+            play(move[0], move[1]);
+        }
+    }
+
+    /**
+     * Play a move.
+     * @param row The row.
+     * @param col The column.
+     */
     private void play(int row, int col) {
         try {
-            game.setMarking(row, col, currentPlayer.mark());
-            if (game.isWinner(currentPlayer.mark())) {
-                setWinner(currentPlayer);
-                isGameOver = true;
+            game.setMarking(row, col, gameState.getCurrentPlayer());
+            if (game.isWinner(gameState.getCurrentPlayer())) {
+                setWinner(gameState.getCurrentPlayer());
+                gameState.setGameOver(true);
+                view.showMessage(gameState.getWinner().name() + " wins!");
             } else if (game.getBoard().isFull()) {
-                isGameOver = true;
+                gameState.setGameOver(true);
+                gameState.setDraw(true);
+                view.showMessage("It's a draw!");
             } else {
-                switchPlayer();
+                switchCurrentPlayer();
             }
         } catch (IllegalMoveException e) {
-            ErrorPopup.show("Cell already marked");
+            view.showMessage("Cell already marked");
         }
     }
 
+    /**
+     * Set the winner of the game.
+     * @param player The winner.
+     */
     private void setWinner(Player player) {
-        WINNER = player;
-    }
-
-    public Player getWinner() {
-        return WINNER;
-    }
-
-    public void reset() {
-        WINNER = null;
-        currentPlayer = game.getPlayers().get(0);
-        isGameOver = false;
-        game.reset();
-    }
-
-    private boolean isGameOver() {
-        return isGameOver;
-    }
-
-    public void gameLoop() {
-        InputController inputController = new InputController();
-
-        while (!this.isGameOver) {
-            Point point = null;
-            while (point == null) {
-                point = inputController.getInput(currentPlayer.name() + "'s turn");
-                if (point.x < 0 || point.x >= game.getBoard().getSize() || point.y < 0 || point.y >= game.getBoard().getSize()) {
-                    point = null;
-                    ErrorPopup.show("Invalid input");
-                }
-            }
-            play(point.x, point.y);
-        }
+        gameState.setWinner(player);
     }
 
     /**
      * Switch the current player.
      */
-    private void switchPlayer() {
-        int index = game.getPlayers().indexOf(currentPlayer) + 1;
+    private void switchCurrentPlayer() {
+        int index = game.getPlayers().indexOf(gameState.getCurrentPlayer()) + 1;
         if (index == game.getPlayers().size()) {
             index = 0;
         }
-        currentPlayer = game.getPlayers().get(index);
+        gameState.setCurrentPlayer(game.getPlayers().get(index));
     }
 }

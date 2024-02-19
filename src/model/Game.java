@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * An abstract class for a game.
  */
 public abstract class Game implements GameInterface, Subject {
-    private BoardInterface board;
+    private Board board;
     private final ArrayList<Player> players;
     private ArrayList<Observer> observers;
 
@@ -15,13 +15,20 @@ public abstract class Game implements GameInterface, Subject {
      * @param board the board
      * @param players the players
      */
-    public Game(BoardInterface board, ArrayList<Player> players) {
+    public Game(Board board, ArrayList<Player> players) {
         this.board = board;
         this.players = players;
         this.observers = new ArrayList<>();
     }
 
-    public abstract void setMarking(int row, int col, Marking marking) throws IllegalMoveException;
+    /**
+     * Set the marking on the board.
+     * @param row the row
+     * @param col the column
+     * @param player the player
+     * @throws IllegalMoveException if the move is illegal
+     */
+    public abstract void setMarking(int row, int col, Player player) throws IllegalMoveException;
 
     /**
      * Reset the game.
@@ -37,7 +44,7 @@ public abstract class Game implements GameInterface, Subject {
      * @return the board
      */
     @Override
-    public BoardInterface getBoard() {
+    public Board getBoard() {
         return board;
     }
 
@@ -47,10 +54,10 @@ public abstract class Game implements GameInterface, Subject {
 
     /**
      * Check if the given marking is a winner.
-     * @param marking the marking to check
+     * @param player the player to verify
      * @return true if the marking is a winner
      */
-    public abstract boolean isWinner(Marking marking);
+    public abstract boolean isWinner(Player player);
 
     /**
      * Register an observer.

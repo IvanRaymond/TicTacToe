@@ -1,10 +1,18 @@
 package view;
 
-import model.Observer;
+/**
+ * GameView interface for the View in the MVC pattern.
+ */
+public interface GameView {
+    /**
+     * Show a message.
+     * @param message the message to show
+     */
+    void showMessage(String message);
 
-public class GameView implements ViewInterface, Observer {
-    @Override
-    public void update() {
-
-    }
+    /**
+     * Get the move from the user.
+     * @return the move
+     */
+    int[] getMove();
 }

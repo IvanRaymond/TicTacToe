@@ -4,16 +4,19 @@ package model;
  * Implementation of the Board interface.
  */
 public class Board implements BoardInterface {
-    private final int size;
-    private Marking[][] board;
+    private final int rows;
+    private final int cols;
+    private String[][] board;
 
     /**
      * Constructor for the Board.
-     * @param size the size of the board
+     * @param rows the number of rows
+     * @param cols the number of columns
      */
-    public Board(int size) {
-        this.size = size;
-        board = new Marking[size][size];
+    public Board(int rows, int cols) {
+        this.rows = rows;
+        this.cols = cols;
+        board = new String[rows][cols];
     }
 
     /**
@@ -23,7 +26,7 @@ public class Board implements BoardInterface {
      * @param marking the marking
      */
     @Override
-    public void setMarking(int row, int col, Marking marking) {
+    public void setMarking(int row, int col, String marking) {
         board[row][col] = marking;
     }
 
@@ -33,8 +36,8 @@ public class Board implements BoardInterface {
      */
     @Override
     public boolean isFull() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
                 if (board[i][j] == null) {
                     return false;
                 }
@@ -44,12 +47,21 @@ public class Board implements BoardInterface {
     }
 
     /**
-     * Get the size of the board.
-     * @return the size
+     * Get the number of rows.
+     * @return the number of rows
      */
     @Override
-    public int getSize() {
-        return size;
+    public int getRows() {
+        return rows;
+    }
+
+    /**
+     * Get the number of columns.
+     * @return the number of columns
+     */
+    @Override
+    public int getCols() {
+        return cols;
     }
 
     /**
@@ -59,7 +71,7 @@ public class Board implements BoardInterface {
      * @return the marking
      */
     @Override
-    public Marking getMarking(int row, int col) {
+    public String getMarking(int row, int col) {
         return board[row][col];
     }
 
@@ -68,6 +80,6 @@ public class Board implements BoardInterface {
      */
     @Override
     public void clear() {
-        board = new Marking[size][size];
+        board = new String[rows][cols];
     }
 }
