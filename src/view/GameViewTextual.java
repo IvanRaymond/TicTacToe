@@ -41,7 +41,20 @@ public class GameViewTextual implements GameView, Observer {
         clearScreen();
 
         // print board
+        // Print column numbers
+        System.out.print("  ");
+        for (int j = 0; j < board.getCols(); j++) {
+            System.out.print(j + 1);
+            if (j < board.getCols() - 1) {
+                System.out.print(" ");
+            }
+        }
+        System.out.println();
+
         for (int i = 0; i < board.getRows(); i++) {
+            // Print row number
+            System.out.print(i + 1 + " ");
+
             for (int j = 0; j < board.getCols(); j++) {
                 String marking = board.getMarking(i, j);
                 System.out.print(Objects.requireNonNullElse(marking, " "));
@@ -50,7 +63,10 @@ public class GameViewTextual implements GameView, Observer {
                 }
             }
             System.out.println();
+
             if (i < board.getRows() - 1) {
+                // Print separators
+                System.out.print("  ");
                 for (int j = 0; j < board.getCols(); j++) {
                     System.out.print("-");
                     if (j < board.getCols() - 1) {
@@ -60,6 +76,7 @@ public class GameViewTextual implements GameView, Observer {
                 System.out.println();
             }
         }
+
     }
 
     private static void clearScreen() {

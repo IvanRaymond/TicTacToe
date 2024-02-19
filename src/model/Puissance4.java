@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Puissance4 extends Game{
 
@@ -10,61 +11,61 @@ public class Puissance4 extends Game{
 	}
 
 	@Override
-	public void setMarking(int row, int col, Marking marking) throws IllegalMoveException {
+	public void setMarking(int row, int col, Player player) throws IllegalMoveException {
 		 if (getBoard().getMarking(row, col) != null) {
 	            throw new IllegalMoveException("The cell is already occupied");
 	        }
-	        getBoard().setMarking(row, col, marking);
+	        getBoard().setMarking(row, col, player.mark());
 	        notifyObservers();
 	}
 
 	@Override
-	public boolean isWinner(Marking marking) {
+	public boolean isWinner(Player player) {
 		// TODO Auto-generated method stub
-		//Vérication en ligne
-		for(int row = 0; row < getBoard().getSizeX(); row++){
-			for (int col = 0;col < getBoard().getSizeY() - 3;col++){
-				if (getBoard().getMarking(row, col) == marking && 
-					getBoard().getMarking(row, col + 1) == marking &&
-					getBoard().getMarking(row, col + 2) == marking &&
-					getBoard().getMarking(row, col + 3) == marking){
+		//Vï¿½rication en ligne
+		for(int row = 0; row < getBoard().getCols(); row++){
+			for (int col = 0;col < getBoard().getRows() - 3;col++){
+				if (getBoard().getMarking(row, col).equals(player.mark()) &&
+					getBoard().getMarking(row, col + 1).equals(player.mark()) &&
+					getBoard().getMarking(row, col + 2).equals(player.mark()) &&
+					getBoard().getMarking(row, col + 3).equals(player.mark())){
 					return true;
 				}
-			}			
+			}
 		}
-		
-		//Vérication en colonne
-		for(int row = 0; row < getBoard().getSizeX() - 3; row++){
-			for (int col = 0;col < getBoard().getSizeY();col++){
-				if (getBoard().getMarking(row, col) == marking && 
-					getBoard().getMarking(row + 1, col) == marking &&
-					getBoard().getMarking(row + 2, col) == marking &&
-					getBoard().getMarking(row + 3, col) == marking){
+
+		//Vï¿½rication en colonne
+		for(int row = 0; row < getBoard().getCols() - 3; row++){
+			for (int col = 0; col < getBoard().getRows(); col++){
+				if (getBoard().getMarking(row, col).equals(player.mark()) &&
+						getBoard().getMarking(row + 1, col).equals(player.mark()) &&
+						getBoard().getMarking(row + 2, col).equals(player.mark()) &&
+						getBoard().getMarking(row + 3, col).equals(player.mark())){
 					return true;
 				}
-			}			
+			}
 		}
-		
-		//Vérication en diagonale montante
-		for(int row = 3; row < getBoard().getSizeX(); row++){
-			for (int col = 0;col < getBoard().getSizeY() - 3;col++){
-				if (getBoard().getMarking(row, col) == marking && 
-					getBoard().getMarking(row - 1, col + 1) == marking &&
-					getBoard().getMarking(row - 2, col + 2) == marking &&
-					getBoard().getMarking(row - 3, col + 3) == marking){
+
+		//Vï¿½rication en diagonale montante
+		for(int row = 3; row < getBoard().getCols(); row++){
+			for (int col = 0;col < getBoard().getRows() - 3;col++){
+				if (getBoard().getMarking(row, col).equals(player.mark()) &&
+					getBoard().getMarking(row - 1, col + 1).equals(player.mark()) &&
+					getBoard().getMarking(row - 2, col + 2).equals(player.mark()) &&
+					getBoard().getMarking(row - 3, col + 3).equals(player.mark())){
 					return true;
 				}
-			}			
+			}
 		}
-		
-		
-		//Vérication en diagonale descendante
-		for(int row = 0; row < getBoard().getSizeX() - 3; row++){
-			for (int col = 0;col < getBoard().getSizeY() - 3;col++){
-				if (getBoard().getMarking(row, col) == marking && 
-					getBoard().getMarking(row + 1, col + 1) == marking &&
-					getBoard().getMarking(row + 2, col + 2) == marking &&
-					getBoard().getMarking(row + 3, col + 3) == marking){
+
+
+		//Vï¿½rication en diagonale descendante
+		for(int row = 0; row < getBoard().getCols() - 3; row++){
+			for (int col = 0;col < getBoard().getRows() - 3;col++){
+				if (getBoard().getMarking(row, col).equals(player.mark()) &&
+					getBoard().getMarking(row + 1, col + 1).equals(player.mark()) &&
+					getBoard().getMarking(row + 2, col + 2).equals(player.mark()) &&
+					getBoard().getMarking(row + 3, col + 3).equals(player.mark())){
 					return true;
 				}
 			}			
