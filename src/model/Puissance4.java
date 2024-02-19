@@ -1,13 +1,11 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class Puissance4 extends Game{
 
 	public Puissance4(ArrayList<Player> players) {
 		super(new Board(6,7), players);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -21,7 +19,6 @@ public class Puissance4 extends Game{
 
 	@Override
 	public boolean isWinner(Player player) {
-		// TODO Auto-generated method stub
 		//V�rication en ligne
 		for(int row = 0; row < getBoard().getCols(); row++){
 			for (int col = 0;col < getBoard().getRows() - 3;col++){
