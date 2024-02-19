@@ -21,7 +21,14 @@ public abstract class Game implements GameInterface, Subject {
         this.observers = new ArrayList<>();
     }
 
-    public abstract void setMarking(int row, int col, Marking marking) throws IllegalMoveException;
+    /**
+     * Set the marking on the board.
+     * @param row the row
+     * @param col the column
+     * @param player the player
+     * @throws IllegalMoveException if the move is illegal
+     */
+    public abstract void setMarking(int row, int col, Player player) throws IllegalMoveException;
 
     /**
      * Reset the game.
@@ -47,10 +54,10 @@ public abstract class Game implements GameInterface, Subject {
 
     /**
      * Check if the given marking is a winner.
-     * @param marking the marking to check
+     * @param player the player to verify
      * @return true if the marking is a winner
      */
-    public abstract boolean isWinner(Marking marking);
+    public abstract boolean isWinner(Player player);
 
     /**
      * Register an observer.

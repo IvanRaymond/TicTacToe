@@ -6,7 +6,7 @@ package model;
 public class Board implements BoardInterface {
     private final int rows;
     private final int cols;
-    private Marking[][] board;
+    private String[][] board;
 
     /**
      * Constructor for the Board.
@@ -16,7 +16,7 @@ public class Board implements BoardInterface {
     public Board(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-        board = new Marking[rows][cols];
+        board = new String[rows][cols];
     }
 
     /**
@@ -26,7 +26,7 @@ public class Board implements BoardInterface {
      * @param marking the marking
      */
     @Override
-    public void setMarking(int row, int col, Marking marking) {
+    public void setMarking(int row, int col, String marking) {
         board[row][col] = marking;
     }
 
@@ -47,14 +47,18 @@ public class Board implements BoardInterface {
     }
 
     /**
-     * Get the size of the board.
-     * @return the size
+     * Get the number of rows.
+     * @return the number of rows
      */
     @Override
     public int getRows() {
         return rows;
     }
 
+    /**
+     * Get the number of columns.
+     * @return the number of columns
+     */
     @Override
     public int getCols() {
         return cols;
@@ -67,7 +71,7 @@ public class Board implements BoardInterface {
      * @return the marking
      */
     @Override
-    public Marking getMarking(int row, int col) {
+    public String getMarking(int row, int col) {
         return board[row][col];
     }
 
@@ -76,6 +80,6 @@ public class Board implements BoardInterface {
      */
     @Override
     public void clear() {
-        board = new Marking[rows][cols];
+        board = new String[rows][cols];
     }
 }

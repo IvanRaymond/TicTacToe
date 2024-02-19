@@ -1,34 +1,52 @@
 package controller;
 
 import model.*;
-import view.GameViewGUI;
+import view.GameView;
 
-import javax.swing.*;
 
+/**
+ * The controller for the game.
+ */
 public class GameController {
     private final GameState gameState;
     private final Game game;
-    private final GameViewGUI view;
+    private final GameView view;
 
-    public GameController(Game game, GameState gameState, GameViewGUI view) {
+    /**
+     * Constructor for the GameController.
+     * @param game The model.
+     * @param gameState The state of the game.
+     * @param view The view.
+     */
+    public GameController(Game game, GameState gameState, GameView view) {
         this.game = game;
         this.gameState = gameState;
         this.view = view;
 
-        // Add action listeners to view's buttons
-        for (int i = 0; i < game.getBoard().getRows(); i++) {
-            for (int j = 0; j < game.getBoard().getCols(); j++) {
-                final int row = i;
-                final int col = j;
-                view.addButtonListener(i, j, e -> handleButtonClick(row, col));
-            }
+        // Start the game loop
+        gameLoop();
+    }
+
+    /**
+     * The game loop.
+     */
+    private void gameLoop() {
+        while (!gameState.isGameOver()) {
+            view.showMessage(gameState.getCurrentPlayer().name() + "'s turn");
+            int[] move = view.getMove();
+            play(move[0], move[1]);
         }
     }
 
+    /**
+     * Play a move.
+     * @param row The row.
+     * @param col The column.
+     */
     private void play(int row, int col) {
         try {
-            game.setMarking(row, col, gameState.getCurrentPlayer().mark());
-            if (game.isWinner(gameState.getCurrentPlayer().mark())) {
+            game.setMarking(row, col, gameState.getCurrentPlayer());
+            if (game.isWinner(gameState.getCurrentPlayer())) {
                 setWinner(gameState.getCurrentPlayer());
                 gameState.setGameOver(true);
                 view.showMessage(gameState.getWinner().name() + " wins!");
@@ -40,10 +58,14 @@ public class GameController {
                 switchCurrentPlayer();
             }
         } catch (IllegalMoveException e) {
-            JOptionPane.showMessageDialog(null, "Cell already marked");
+            view.showMessage("Cell already marked");
         }
     }
 
+    /**
+     * Set the winner of the game.
+     * @param player The winner.
+     */
     private void setWinner(Player player) {
         gameState.setWinner(player);
     }
@@ -57,13 +79,5 @@ public class GameController {
             index = 0;
         }
         gameState.setCurrentPlayer(game.getPlayers().get(index));
-    }
-
-    private void handleButtonClick(int row, int col) {
-        if (gameState.isGameOver()) {
-            return;
-        }
-        view.updateButton(row, col, gameState.getCurrentPlayer().mark().toString());
-        play(row, col);
     }
 }

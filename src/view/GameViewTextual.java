@@ -2,18 +2,23 @@ package view;
 
 import model.Board;
 import model.Game;
-import model.Marking;
 import model.Observer;
 
-public class GameViewTextual implements GameViewInterface, Observer {
-    private final Game model;
+import java.util.InputMismatchException;
+import java.util.Objects;
+import java.util.Scanner;
+
+public class GameViewTextual implements GameView, Observer {
+    private final Game game;
 
     /**
      * Constructor for the GameView.
-     * @param model The model.
+     * @param game The model.
      */
-    public GameViewTextual(Game model) {
-        this.model = model;
+    public GameViewTextual(Game game) {
+        this.game = game;
+        game.registerObserver(this);
+        showBoard();
     }
 
     /**
@@ -28,9 +33,9 @@ public class GameViewTextual implements GameViewInterface, Observer {
     /**
      * Show the board.
      */
-    public void showBoard() {
+    private void showBoard() {
         // get board from model
-        Board board = this.model.getBoard();
+        Board board = this.game.getBoard();
 
         // clear screen
         clearScreen();
@@ -38,12 +43,8 @@ public class GameViewTextual implements GameViewInterface, Observer {
         // print board
         for (int i = 0; i < board.getRows(); i++) {
             for (int j = 0; j < board.getCols(); j++) {
-                Marking marking = board.getMarking(i, j);
-                if (marking == null) {
-                    System.out.print(" ");
-                } else {
-                    System.out.print(marking);
-                }
+                String marking = board.getMarking(i, j);
+                System.out.print(Objects.requireNonNullElse(marking, " "));
                 if (j < board.getCols() - 1) {
                     System.out.print("|");
                 }
@@ -61,10 +62,45 @@ public class GameViewTextual implements GameViewInterface, Observer {
         }
     }
 
-    public static void clearScreen() {
+    private static void clearScreen() {
         // Print 50 empty lines to "clear" the screen
         for (int i = 0; i < 50; i++) {
             System.out.println();
         }
+    }
+
+    /**
+     * Show a message.
+     * @param message the message to show
+     */
+    @Override
+    public void showMessage(String message) {
+        System.out.println(message);
+    }
+
+    /**
+     * Get the move from the user.
+     * @return the move
+     */
+    @Override
+    public int[] getMove() {
+        int row = getValidInput("Enter the row: ", game.getBoard().getRows()) - 1;
+        int col = getValidInput("Enter the column: ", game.getBoard().getCols()) - 1;
+        return new int[]{row, col};
+    }
+
+    private int getValidInput(String message, int max) {
+        Scanner scanner = new Scanner(System.in);
+        int input;
+        do {
+            System.out.println(message);
+            try {
+                input = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                scanner.nextLine(); // clear the buffer
+                input = -1;
+            }
+        } while (input < 1 || input > max);
+        return input;
     }
 }

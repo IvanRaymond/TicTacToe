@@ -10,7 +10,7 @@ public interface BoardInterface {
      * @param col column
      * @param marking the marking
      */
-    void setMarking(int row, int col, Marking marking);
+    void setMarking(int row, int col, String marking);
 
     /**
      * Check if the board is full.
@@ -36,7 +36,7 @@ public interface BoardInterface {
      * @param col column
      * @return the marking
      */
-    Marking getMarking(int row, int col);
+    String getMarking(int row, int col);
 
     /**
      * Clear the board.
