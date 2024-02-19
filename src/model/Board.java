@@ -4,16 +4,18 @@ package model;
  * Implementation of the Board interface.
  */
 public class Board implements BoardInterface {
-    private final int size;
+    private final int x;
+    private final int y;
     private Marking[][] board;
 
     /**
      * Constructor for the Board.
      * @param size the size of the board
      */
-    public Board(int size) {
-        this.size = size;
-        board = new Marking[size][size];
+    public Board(int x, int y) {
+        this.x = x;
+        this.y = y;
+        board = new Marking[x][y];
     }
 
     /**
@@ -33,8 +35,8 @@ public class Board implements BoardInterface {
      */
     @Override
     public boolean isFull() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < this.x; i++) {
+            for (int j = 0; j < this.y; j++) {
                 if (board[i][j] == null) {
                     return false;
                 }
@@ -44,12 +46,21 @@ public class Board implements BoardInterface {
     }
 
     /**
-     * Get the size of the board.
-     * @return the size
+     * Get the x size of the board.
+     * @return the x
      */
     @Override
-    public int getSize() {
-        return size;
+    public int getSizeX() {
+        return this.x;
+    }
+    
+    /**
+     * Get the y size of the board.
+     * @return the y 
+     */
+    @Override
+    public int getSizeY() {
+        return this.y;
     }
 
     /**
@@ -68,6 +79,6 @@ public class Board implements BoardInterface {
      */
     @Override
     public void clear() {
-        board = new Marking[size][size];
+        board = new Marking[x][y];
     }
 }

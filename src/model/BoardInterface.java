@@ -19,12 +19,6 @@ public interface BoardInterface {
     boolean isFull();
 
     /**
-     * Get the size of the board.
-     * @return the size
-     */
-    int getSize();
-
-    /**
      * Get the marking at the given row and column.
      * @param row row
      * @param col column
@@ -36,4 +30,16 @@ public interface BoardInterface {
      * Clear the board.
      */
     void clear();
+
+	/**
+	 * Get the size of the board.
+	 * @return the size
+	 */
+	int getSizeX();
+
+	/**
+	 * Get the y size of the board.
+	 * @return the y 
+	 */
+	int getSizeY();
 }
